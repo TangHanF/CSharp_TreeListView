@@ -1,0 +1,181 @@
+using System;
+using System.Drawing;
+using System.Collections;
+using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace TryTreeListView
+{
+	/// <summary>
+	/// Summary description for TryTreeListView.
+	/// </summary>
+	public class TryTreeListView : System.Windows.Forms.Form
+	{
+		private System.Windows.Forms.TreeListView treeListView1;
+		private System.Windows.Forms.ColumnHeader columnHeader1;
+		private System.Windows.Forms.ColumnHeader columnHeader2;
+		private System.Windows.Forms.ImageList imageList1;
+		private System.Windows.Forms.ColumnHeader columnHeader3;
+		private System.Windows.Forms.Button button1;
+		private System.ComponentModel.IContainer components;
+
+		public TryTreeListView()
+		{
+			//
+			// Required for Windows Form Designer support
+			//
+			InitializeComponent();
+
+			//
+			// TODO: Add any constructor code after InitializeComponent call
+			//
+		}
+
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		protected override void Dispose( bool disposing )
+		{
+			if( disposing )
+			{
+				if(components != null)
+				{
+					components.Dispose();
+				}
+			}
+			base.Dispose( disposing );
+		}
+
+		#region Windows Form Designer generated code
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
+			this.components = new System.ComponentModel.Container();
+			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(TryTreeListView));
+			this.treeListView1 = new System.Windows.Forms.TreeListView();
+			this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
+			this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
+			this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
+			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+			this.button1 = new System.Windows.Forms.Button();
+			this.SuspendLayout();
+			// 
+			// treeListView1
+			// 
+			this.treeListView1.AllowColumnReorder = true;
+			this.treeListView1.Anchor = (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+				| System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right);
+			this.treeListView1.CheckBoxes = System.Windows.Forms.CheckBoxesTypes.Recursive;
+			this.treeListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+																							this.columnHeader1,
+																							this.columnHeader2,
+																							this.columnHeader3});
+			this.treeListView1.ExpandMethod = System.Windows.Forms.TreeListViewExpandMethod.EntireItemDbleClick;
+			this.treeListView1.HideSelection = false;
+			this.treeListView1.LabelEdit = true;
+			this.treeListView1.Location = new System.Drawing.Point(4, 4);
+			this.treeListView1.Name = "treeListView1";
+			this.treeListView1.Size = new System.Drawing.Size(384, 172);
+			this.treeListView1.TabIndex = 0;
+			this.treeListView1.BeforeLabelEdit += new System.Windows.Forms.TreeListViewBeforeLabelEditEventHandler(this.treeListView1_BeforeLabelEdit);
+			this.treeListView1.BeforeCollapse += new System.Windows.Forms.TreeListViewCancelEventHandler(this.treeListView1_BeforeCollapse);
+			this.treeListView1.BeforeExpand += new System.Windows.Forms.TreeListViewCancelEventHandler(this.treeListView1_BeforeExpand);
+			// 
+			// columnHeader1
+			// 
+			this.columnHeader1.Text = "Name";
+			this.columnHeader1.Width = 200;
+			// 
+			// columnHeader2
+			// 
+			this.columnHeader2.Text = "Attribute";
+			this.columnHeader2.Width = 100;
+			// 
+			// imageList1
+			// 
+			this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+			this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
+			this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+			this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+			// 
+			// button1
+			// 
+			this.button1.Location = new System.Drawing.Point(8, 176);
+			this.button1.Name = "button1";
+			this.button1.TabIndex = 1;
+			this.button1.Text = "button1";
+			this.button1.Click += new System.EventHandler(this.button1_Click);
+			// 
+			// TryTreeListView
+			// 
+			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+			this.ClientSize = new System.Drawing.Size(392, 203);
+			this.Controls.AddRange(new System.Windows.Forms.Control[] {
+																		  this.button1,
+																		  this.treeListView1});
+			this.Name = "TryTreeListView";
+			this.Text = "TryTreeListView";
+			this.Load += new System.EventHandler(this.TryTreeListView_Load);
+			this.ResumeLayout(false);
+
+		}
+		#endregion
+
+		[STAThread]
+		static void Main() 
+		{
+			Application.Run(new TryTreeListView());
+		}
+
+		private void TryTreeListView_Load(object sender, System.EventArgs e)
+		{
+			treeListView1.SmallImageList = imageList1;
+			TreeListViewItem itemA = new TreeListViewItem("Drive A", 0);
+			itemA.Expand();
+			itemA.SubItems.Add("First drive");
+			treeListView1.Items.Add(itemA);
+			for(int i = 1; i < 5; i++)
+			{
+				TreeListViewItem item = new TreeListViewItem("Folder " + i.ToString(), 1);
+				itemA.Items.Add(item);
+				ListViewItem.ListViewSubItem subitem = item.SubItems.Add(i.ToString());
+//				subitem.ForeColor = Color.FromArgb(173,194,231);
+//				subitem.BackColor = Color.Yellow;
+//				subitem.Font = new Font(subitem.Font, FontStyle.Bold | FontStyle.Underline);
+				for(int j = 1; j < 5; j++)
+					item.Items.Add("Sub " + j, 3);
+			}
+		}
+
+		private void treeListView1_BeforeExpand(object sender, System.Windows.Forms.TreeListViewCancelEventArgs e)
+		{
+			if(e.Item.ImageIndex == 1) e.Item.ImageIndex = 2;
+		}
+
+		private void treeListView1_BeforeCollapse(object sender, System.Windows.Forms.TreeListViewCancelEventArgs e)
+		{
+			if(e.Item.ImageIndex == 2) e.Item.ImageIndex = 1;
+		}
+
+		private void treeListView1_BeforeLabelEdit(object sender, System.Windows.Forms.TreeListViewBeforeLabelEditEventArgs e)
+		{
+			if(e.Item.ImageIndex < 1 || e.Item.ImageIndex > 2)
+				e.ColumnIndex = 0;
+			if(e.ColumnIndex == 1)
+			{
+				ComboBox combobox = new ComboBox();
+				combobox.Items.AddRange(new string[]{"New value 1","New value 2","New value 3"});
+				e.Editor = combobox;
+			}
+		}
+
+		private void button1_Click(object sender, System.EventArgs e)
+		{
+			treeListView1.Items.Clear();
+		}
+	}
+}
